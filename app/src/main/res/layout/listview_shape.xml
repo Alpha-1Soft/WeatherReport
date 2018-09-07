@@ -8,32 +8,31 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
+        android:padding="10dp"
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="78dp"
             android:orientation="vertical"
             android:gravity="left"
-            android:layout_marginLeft="8dp">
+            >
 
             <TextView
                 android:id="@+id/dayTv"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:text="Today"
-                android:textStyle="bold"
                 android:textColor="#000"
-                android:textSize="20dp"/>
+                android:textSize="25dp"/>
             <TextView
                 android:id="@+id/minTempTv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="37dp"
                 android:text="Min:9.2 C"
-                android:textStyle="bold"
                 android:textAllCaps="false"
                 android:textColor="#000"
-                android:textSize="18dp"
+                android:textSize="20dp"
                 />
         </LinearLayout>
         <LinearLayout
@@ -51,11 +50,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="215dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="78dp"
             android:layout_gravity="right"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="8dp"
             android:gravity="right"
             android:orientation="vertical">
 
@@ -66,8 +64,7 @@
                 android:layout_gravity="right"
                 android:text="January 11,2018"
                 android:textColor="#000"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="20dp"
                 />
 
             <TextView
@@ -77,8 +74,7 @@
                 android:layout_gravity="right"
                 android:text="Max:18.0 C"
                 android:textColor="#000"
-                android:textSize="18dp"
-                android:textStyle="bold"
+                android:textSize="20dp"
                 />
         </LinearLayout>
 
