@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tanvir.weatherreport.R;
 import com.example.tanvir.weatherreport.models.needy_models.Forecast;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -39,15 +41,17 @@ public class ForecastAdapter extends ArrayAdapter<Forecast> {
         TextView dateTv = view.findViewById(R.id.dateTv);
         TextView minTempTv = view.findViewById(R.id.minTempTv);
         TextView maxTempTv = view.findViewById(R.id.maxTempTv);
+        ImageView imageView = view.findViewById(R.id.weatherConditionIm);
         //return super.getView(position, convertView, parent);
 
 
 
         //setting listview shape component to arrryList
-        dayTv.setText(item.getDate());
+        dayTv.setText(item.getDay());
         dateTv.setText(item.getDate());
         minTempTv.setText(item.getMinTemp());
         maxTempTv.setText(item.getMaxTemp());
+        Picasso.with(context).load(item.getImage()).into(imageView);
 
         return view;
     }
