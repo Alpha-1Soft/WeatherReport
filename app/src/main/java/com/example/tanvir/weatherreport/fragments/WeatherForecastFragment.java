@@ -106,7 +106,6 @@ public class WeatherForecastFragment extends Fragment {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("MMMM dd, yyyy");
         sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
         String formattedDate = sdf.format(date);
-
         return formattedDate;
     }
 
