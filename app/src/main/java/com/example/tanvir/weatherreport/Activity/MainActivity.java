@@ -1,6 +1,10 @@
 package com.example.tanvir.weatherreport.Activity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -9,8 +13,10 @@ import android.os.Bundle;
 import android.telecom.Call;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.TableLayout;
+import android.widget.Toast;
 
 import com.example.tanvir.weatherreport.R;
 import com.example.tanvir.weatherreport.RetrofitClient;
@@ -24,6 +30,8 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements CurrectWeatherFragment.OnFragmentInteractionListener,WeatherForecastFragment.OnFragmentInteractionListener{
     WeatherApi weatherApi;
+    TabLayout tabLayout;
+    String searchCurrentWeather=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         getWeather();
 
 
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayoutId);
+        tabLayout = (TabLayout)findViewById(R.id.tablayoutId);
         tabLayout.addTab(tabLayout.newTab().setText("Current"));
         tabLayout.addTab(tabLayout.newTab().setText("Forecast"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -66,16 +74,36 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_toolbar,menu);
+        MenuItem search = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) search.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String searchText) {
+                if(tabLayout.getSelectedTabPosition()==0 && searchView.isIconified()==true){
+                  CurrectWeatherFragment fragment = new CurrectWeatherFragment();
+                  fragment.OnQueryTextListener(searchText);
+                }
+                return false;
+            }
+
+            public String sendData() {
+                return searchCurrentWeather;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String searchText) {
+
+                return false;
+            }
+        });
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.setting:
-                //
-                break;
-            case R.id.search:
                 //
                 break;
                 default:
