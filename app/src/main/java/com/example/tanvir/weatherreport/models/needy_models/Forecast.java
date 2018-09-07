@@ -5,12 +5,19 @@ public class Forecast {
     private String minTemp;
     private String maxTemp;
     private String date;
+    private String  image;
 
-    public Forecast(String day, String minTemp, String maxTemp, String date) {
+    public String getImage() {
+        return image;
+    }
+
+    public Forecast(String day, String minTemp, String maxTemp, String date, String image) {
         this.day = day;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.date = date;
+        this.image = image;
+
     }
 
     public String getDay() {
