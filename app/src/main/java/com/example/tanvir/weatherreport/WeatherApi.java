@@ -14,6 +14,7 @@ public interface WeatherApi {
     @GET()
     Call<com.example.tanvir.weatherreport.models.weather_models.Weather>getWeatherBySearch(@Url String location);
 
+
     @GET("data/2.5/forecast/daily?q=Dhaka,bd&units=metric&cnt=7&appid=c0c4a4b4047b97ebc5948ac9c48c0559")
     Call<Forecast>getForecast();
 
