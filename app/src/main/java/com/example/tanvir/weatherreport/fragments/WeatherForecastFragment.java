@@ -17,6 +17,7 @@ import com.example.tanvir.weatherreport.WeatherApi;
 import com.example.tanvir.weatherreport.models.needy_models.Forecast;
 import com.example.tanvir.weatherreport.models.weather_models.Weather;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +34,6 @@ public class WeatherForecastFragment extends Fragment {
     ListView listView;
     ArrayAdapter arrayAdapter;
 
-    String[] dayName = {"Saturday","Sunday","Monday","Tuesday","Wednesday","Friday","Thursday"};
     public interface OnFragmentInteractionListener {
 
     }
@@ -59,16 +59,20 @@ public class WeatherForecastFragment extends Fragment {
             public void onResponse(Call<com.example.tanvir.weatherreport.models.forecast_models.Forecast> call, Response<com.example.tanvir.weatherreport.models.forecast_models.Forecast> response) {
 
                 com.example.tanvir.weatherreport.models.forecast_models.Forecast forecast = response.body();
-
                 for(int i=0;i<7;){
+
+                    String iconUrl = "http://openweathermap.org/img/w/" + forecast.getList().get(i).getWeather().get(0).getIcon()+ ".png";
                     String dateFormate = dateFormate(forecast.getList().get(i).getDt());
 
-                    int d = dayOfWeek(dateFormate);
-                    String name = dayName[d-1];
-                    arrayList.add(new Forecast(forecast.getList().get(i).getDt().toString(),
-                                forecast.getList().get(i).getTemp().getMin().toString(),
-                                forecast.getList().get(i).getTemp().getMax().toString(),
-                                name+String.valueOf(d)
+                    String dayOfWeek = dayOfWeek(forecast.getList().get(i).getDt());
+
+                    double minTemp = forecast.getList().get(i).getTemp().getMin();
+                    double maxTemp = forecast.getList().get(i).getTemp().getMax();
+
+                    arrayList.add(new Forecast(dayOfWeek,
+                                "Min: "+new DecimalFormat("#.#").format(minTemp)+" "+"\u2103",
+                                    "Max: "+new DecimalFormat("#.#").format(maxTemp)+" "+"\u2103",
+                                dateFormate,iconUrl
                                 ));
                         i++;
                 }
@@ -86,18 +90,12 @@ public class WeatherForecastFragment extends Fragment {
         return view;
     }
 
-    private int dayOfWeek(String dateFormate) {
-        Date format1= null;
-        int dayOfWeek=-1;
-        try {
-            format1 = new SimpleDateFormat("MMMM dd, yyyy").parse(dateFormate);
-            Calendar c = Calendar.getInstance();
-            c.setTime(format1);
-            dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return dayOfWeek;
+    public String dayOfWeek(int dt){
+        Date date = new java.util.Date(dt*1000L);
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE");
+        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
+        String formattedDate = sdf.format(date);
+        return formattedDate;
     }
 
     //date formation
