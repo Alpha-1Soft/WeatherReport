@@ -24,6 +24,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter{
                 WeatherForecastFragment weatherForecastFragment = new WeatherForecastFragment();
                 return weatherForecastFragment;
 
+
             default:
                 return null;
         }

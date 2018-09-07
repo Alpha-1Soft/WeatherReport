@@ -42,6 +42,7 @@ public class ForecastAdapter extends ArrayAdapter<Forecast> {
         //return super.getView(position, convertView, parent);
 
 
+
         //setting listview shape component to arrryList
         dayTv.setText(item.getDate());
         dateTv.setText(item.getDate());
