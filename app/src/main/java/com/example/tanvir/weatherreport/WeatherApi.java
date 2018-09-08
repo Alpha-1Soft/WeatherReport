@@ -8,6 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Url;
 
 public interface WeatherApi {
+
     @GET("data/2.5/weather?q=Dhaka,bd&apikey=90ff8755cfe4bfaa6e542e82cafe5b3e")
     Call<com.example.tanvir.weatherreport.models.weather_models.Weather> getWeather();
 
