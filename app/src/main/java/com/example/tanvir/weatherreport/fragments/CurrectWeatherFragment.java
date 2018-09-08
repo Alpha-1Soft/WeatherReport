@@ -23,6 +23,8 @@ import com.example.tanvir.weatherreport.WeatherApi;
 import com.example.tanvir.weatherreport.models.weather_models.Weather;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -93,7 +95,10 @@ public class CurrectWeatherFragment extends Fragment {
                 dayText.setText(dayFormate(weather.getDt()));
                 cityText.setText(weather.getName());
 
-
+                int sunrise = weather.getSys().getSunrise();
+                sunriseText.setText(timeFormate(sunrise)+ " AM");
+                int sunset = weather.getSys().getSunset();
+                sunsetText.setText(timeFormate(sunset) + " PM");
 
             }
 
@@ -125,6 +130,16 @@ public class CurrectWeatherFragment extends Fragment {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("EEEE");
         sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
         String formattedDate = sdf.format(date);
+        return formattedDate;
+    }
+
+    // time formate
+    private String timeFormate(int dt) {
+        Date date = new java.util.Date(dt*1000L);
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm");
+        sdf.setTimeZone(java.util.TimeZone.getTimeZone("GMT-4"));
+        String formattedDate = sdf.format(dt);
+
         return formattedDate;
     }
 
