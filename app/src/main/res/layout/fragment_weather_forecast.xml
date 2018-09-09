@@ -6,20 +6,13 @@
     tools:context=".fragments.WeatherForecastFragment"
     android:orientation="vertical">
 
-  <SearchView
-      android:id="@+id/searchView"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:queryHint="Search Here"
-      android:iconifiedByDefault="false"
-      android:layout_alignParentTop="true"
-      android:background="#ffffff"
-      />
+
   <ListView
       android:background="@drawable/gradient2"
       android:id="@+id/listview"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:dividerHeight="2dp"
       >
 
   </ListView>
