@@ -125,7 +125,6 @@ public class CurrectWeatherFragment extends Fragment {
 //getting data by search
     public void getWeatherDataBySearch(String location, final String key) {
 
-        Toast.makeText(getActivity(), "checked", Toast.LENGTH_SHORT).show();
         weatherApi = RetrofitClient.getRetrofitClient().create(WeatherApi.class);
 
         String url = "data/2.5/weather?q="+location+"&apikey=90ff8755cfe4bfaa6e542e82cafe5b3e";
@@ -134,7 +133,6 @@ public class CurrectWeatherFragment extends Fragment {
         weather1Call.enqueue(new Callback<Weather1>() {
             @Override
             public void onResponse(Call<Weather1> call, Response<Weather1> response) {
-                Toast.makeText(getActivity(), "checked reponse", Toast.LENGTH_SHORT).show();
                 if(response.isSuccessful() && response.body()!=null){
 
                     Weather1 weather2 = response.body();

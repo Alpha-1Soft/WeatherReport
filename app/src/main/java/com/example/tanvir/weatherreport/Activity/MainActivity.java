@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                                 editor1.putString("location", searchText);
                                 editor1.apply();
                                 editor1.commit();
-
-                                Toast.makeText(MainActivity.this, "" + key + searchText, Toast.LENGTH_SHORT).show();
                             }
                         }
                     //}
@@ -122,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         int id = item.getItemId();
         switch (id) {
             case R.id.degreeCelcius:
+
+                Toast.makeText(this, "Celsius mode enabled ", Toast.LENGTH_SHORT).show();
                 myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
                 String query = myPrefs.getString("location", null);
 
@@ -133,8 +133,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
 
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 String key = myPrefs.getString("Key", null);
-
-                Toast.makeText(this, "checked1"+query, Toast.LENGTH_SHORT).show();
 
 
                 PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
@@ -154,13 +152,11 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                             if (query==null){//checking mode click if default then show dhaka,bd's temp
                                 weatherForecastFragment.beginSearch("Dhaka,bd",key);
                                 currectWeatherFragment.getWeatherDataBySearch("Dhaka,bd",key);
-                                Toast.makeText(this, "checked1", Toast.LENGTH_SHORT).show();
 
                             }
                             else if(query.length()>0){//else user search any query then it works with it
                                 weatherForecastFragment.beginSearch(query,key);
                                 currectWeatherFragment.getWeatherDataBySearch(query,key);
-                                Toast.makeText(this, "checked1"+query, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
@@ -183,11 +179,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 String key1 = myPrefs.getString("Key", null);
 
-
-                Toast.makeText(this, "Celsius mode enabled "+key1, Toast.LENGTH_SHORT).show();
-
-
-
                 PagerAdapter pagerAdapter1 = (PagerAdapter) viewPager.getAdapter();
 
                 Fragment viewPagerFragment2 = (Fragment) viewPager
@@ -205,12 +196,10 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                             if (query1==null){//checking mode click if default then show dhaka,bd's temp
                                 weatherForecastFragment.beginSearch("Dhaka,bd",key1);
                                 currectWeatherFragment.getWeatherDataBySearch("Dhaka,bd",key1);
-                                Toast.makeText(this, "checked1", Toast.LENGTH_SHORT).show();
                             }
                             else if(query1.length()>0){//else user search any query then it works with it
                                 weatherForecastFragment.beginSearch(query1,key1);
                                 currectWeatherFragment.getWeatherDataBySearch(query1,key1);
-                                Toast.makeText(this, "checked1"+query1, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
