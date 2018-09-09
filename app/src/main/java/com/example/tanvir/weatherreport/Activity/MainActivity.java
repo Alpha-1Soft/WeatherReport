@@ -4,34 +4,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.TableLayout;
 import android.widget.Toast;
 
 import com.example.tanvir.weatherreport.R;
-import com.example.tanvir.weatherreport.RetrofitClient;
-import com.example.tanvir.weatherreport.WeatherApi;
 import com.example.tanvir.weatherreport.fragments.CurrectWeatherFragment;
 import com.example.tanvir.weatherreport.fragments.WeatherForecastFragment;
-import com.example.tanvir.weatherreport.models.weather_models.Weather;
 
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity implements CurrectWeatherFragment.OnFragmentInteractionListener,WeatherForecastFragment.OnFragmentInteractionListener{
-    WeatherApi weatherApi;
+public class MainActivity extends AppCompatActivity implements CurrectWeatherFragment.OnFragmentInteractionListener,WeatherForecastFragment.OnFragmentInteractionListener {
     TabLayout tabLayout;
-    String searchCurrentWeather=null;
+    SharedPreferences myPrefs;
+    ViewPager viewPager;
+    int clickCount = 0,clickCount1=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,16 +32,15 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getWeather();
-
-
-        tabLayout = (TabLayout)findViewById(R.id.tablayoutId);
+        tabLayout = (TabLayout) findViewById(R.id.tablayoutId);
         tabLayout.addTab(tabLayout.newTab().setText("Current"));
-        tabLayout.addTab(tabLayout.newTab().setText("Forecast"));
+        tabLayout.addTab(tabLayout.newTab().setText("7 days forecast"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = findViewById(R.id.viewpagerId);
-        PagerAdapter pagerAdapter = new com.example.tanvir.weatherreport.Adapters.PagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager = findViewById(R.id.viewpagerId);
+        PagerAdapter pagerAdapter = new com.example.tanvir.weatherreport.Adapters.
+                PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
@@ -73,21 +64,48 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_toolbar,menu);
+        getMenuInflater().inflate(R.menu.main_toolbar, menu);
+        //finding search
         MenuItem search = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) search.getActionView();
+
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String searchText) {
-                if(tabLayout.getSelectedTabPosition()==0 && searchView.isIconified()==true){
-                  CurrectWeatherFragment fragment = new CurrectWeatherFragment();
-                  fragment.OnQueryTextListener(searchText);
+                PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
+
+                //for (int i = 0; i < pagerAdapter.getCount(); i++) {
+
+                    Fragment viewPagerFragment = (Fragment) viewPager
+                            .getAdapter().instantiateItem(viewPager, 1);
+                Fragment viewPagerFragment1 = (Fragment) viewPager
+                        .getAdapter().instantiateItem(viewPager, 0);
+
+                if (viewPagerFragment != null
+                            && viewPagerFragment.isAdded()) {
+
+                        if (viewPagerFragment instanceof WeatherForecastFragment || viewPagerFragment1 instanceof  CurrectWeatherFragment) {
+                            final WeatherForecastFragment weatherForecastFragment = (WeatherForecastFragment) viewPagerFragment;
+                            CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment1;
+                            if (weatherForecastFragment != null && currectWeatherFragment!=null) {
+                                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                                String key = myPrefs.getString("Key", null);
+                                currectWeatherFragment.getWeatherDataBySearch(searchText,key);
+                                weatherForecastFragment.beginSearch(searchText, key);
+
+                                myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor1 = myPrefs.edit();
+                                editor1.putString("location", searchText);
+                                editor1.apply();
+                                editor1.commit();
+
+                                Toast.makeText(MainActivity.this, "" + key + searchText, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    //}
                 }
                 return false;
-            }
-
-            public String sendData() {
-                return searchCurrentWeather;
             }
 
             @Override
@@ -99,37 +117,129 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.setting:
-                //
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.degreeCelcius:
+                myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
+                String query = myPrefs.getString("location", null);
+
+                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = myPrefs.edit();
+                editor.putString("Key", "1");
+                editor.apply();
+                editor.commit();
+
+                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                String key = myPrefs.getString("Key", null);
+
+                Toast.makeText(this, "checked1"+query, Toast.LENGTH_SHORT).show();
+
+
+                PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
+
+                Fragment viewPagerFragment = (Fragment) viewPager
+                        .getAdapter().instantiateItem(viewPager, 1);
+                Fragment viewPagerFragment1 = (Fragment) viewPager
+                        .getAdapter().instantiateItem(viewPager, 0);
+
+                if (viewPagerFragment != null
+                        && viewPagerFragment.isAdded()) {
+
+                    if (viewPagerFragment instanceof WeatherForecastFragment || viewPagerFragment1 instanceof  CurrectWeatherFragment) {
+                        final WeatherForecastFragment weatherForecastFragment = (WeatherForecastFragment) viewPagerFragment;
+                        CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment1;
+                        if (weatherForecastFragment != null && currectWeatherFragment!=null) {
+                            if (query==null){//checking mode click if default then show dhaka,bd's temp
+                                weatherForecastFragment.beginSearch("Dhaka,bd",key);
+                                currectWeatherFragment.getWeatherDataBySearch("Dhaka,bd",key);
+                                Toast.makeText(this, "checked1", Toast.LENGTH_SHORT).show();
+
+                            }
+                            else if(query.length()>0){//else user search any query then it works with it
+                                weatherForecastFragment.beginSearch(query,key);
+                                currectWeatherFragment.getWeatherDataBySearch(query,key);
+                                Toast.makeText(this, "checked1"+query, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                }
+                clickCount++;
                 break;
-                default:
-                    break;
+
+            case R.id.degreeFarenhite:
+                myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
+                String query1 = myPrefs.getString("location", null);
+
+                Toast.makeText(this, "Fahrenheit mode enabled", Toast.LENGTH_SHORT).show();
+                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = myPrefs.edit();
+                editor1.putString("Key", "2");
+                editor1.apply();
+                editor1.commit();
+
+                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                String key1 = myPrefs.getString("Key", null);
+
+
+                Toast.makeText(this, "Celsius mode enabled "+key1, Toast.LENGTH_SHORT).show();
+
+
+
+                PagerAdapter pagerAdapter1 = (PagerAdapter) viewPager.getAdapter();
+
+                Fragment viewPagerFragment2 = (Fragment) viewPager
+                        .getAdapter().instantiateItem(viewPager, 1);
+                Fragment viewPagerFragment3 = (Fragment) viewPager
+                        .getAdapter().instantiateItem(viewPager, 0);
+
+                if (viewPagerFragment2 != null
+                        && viewPagerFragment2.isAdded()) {
+
+                    if (viewPagerFragment2 instanceof WeatherForecastFragment || viewPagerFragment3 instanceof  CurrectWeatherFragment) {
+                        final WeatherForecastFragment weatherForecastFragment = (WeatherForecastFragment) viewPagerFragment2;
+                        CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment3;
+                        if (weatherForecastFragment != null && currectWeatherFragment!=null) {
+                            if (query1==null){//checking mode click if default then show dhaka,bd's temp
+                                weatherForecastFragment.beginSearch("Dhaka,bd",key1);
+                                currectWeatherFragment.getWeatherDataBySearch("Dhaka,bd",key1);
+                                Toast.makeText(this, "checked1", Toast.LENGTH_SHORT).show();
+                            }
+                            else if(query1.length()>0){//else user search any query then it works with it
+                                weatherForecastFragment.beginSearch(query1,key1);
+                                currectWeatherFragment.getWeatherDataBySearch(query1,key1);
+                                Toast.makeText(this, "checked1"+query1, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+
+                }
+                clickCount1++;
+                break;
+
+            default:
+                break;
         }
         return true;
     }
 
-    private void getWeather() {
-        weatherApi = RetrofitClient.getRetrofitClient().create(WeatherApi.class);
-        retrofit2.Call<Weather>getWeatherCall = weatherApi.getWeather();
-
-        getWeatherCall.enqueue(new Callback<Weather>() {
-            @Override
-            public void onResponse(retrofit2.Call<Weather> call, Response<Weather> response) {
-                Weather weather = response.body();
-
-                Double d = (weather.getMain().getTemp()-273.15);
-                //textView.setText(d.toString());
-            }
-
-            @Override
-            public void onFailure(retrofit2.Call<Weather> call, Throwable t) {
-
-            }
-        });
+    @Override
+    public void onBackPressed() {
+        clickCount=0;
+        clickCount1=0;
+        myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = myPrefs.edit();
+        editor1.clear();
+        finish();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        final SharedPreferences pref = getSharedPreferences("queryId", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.clear().commit();
+    }
 }
