@@ -1,11 +1,12 @@
 
 package com.example.tanvir.weatherreport.models.weather_models;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Weather {
+import java.util.List;
+
+public class Weather1 {
 
     @SerializedName("coord")
     @Expose
@@ -19,12 +20,12 @@ public class Weather {
     @SerializedName("main")
     @Expose
     private Main main;
-    @SerializedName("visibility")
-    @Expose
-    private Integer visibility;
     @SerializedName("wind")
     @Expose
     private Wind wind;
+    @SerializedName("rain")
+    @Expose
+    private Rain rain;
     @SerializedName("clouds")
     @Expose
     private Clouds clouds;
@@ -76,20 +77,20 @@ public class Weather {
         this.main = main;
     }
 
-    public Integer getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(Integer visibility) {
-        this.visibility = visibility;
-    }
-
     public Wind getWind() {
         return wind;
     }
 
     public void setWind(Wind wind) {
         this.wind = wind;
+    }
+
+    public Rain getRain() {
+        return rain;
+    }
+
+    public void setRain(Rain rain) {
+        this.rain = rain;
     }
 
     public Clouds getClouds() {
