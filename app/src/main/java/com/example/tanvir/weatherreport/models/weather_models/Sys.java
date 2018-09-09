@@ -6,12 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Sys {
 
-    @SerializedName("type")
-    @Expose
-    private Integer type;
-    @SerializedName("id")
-    @Expose
-    private Integer id;
     @SerializedName("message")
     @Expose
     private Double message;
@@ -24,22 +18,6 @@ public class Sys {
     @SerializedName("sunset")
     @Expose
     private Integer sunset;
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Double getMessage() {
         return message;
