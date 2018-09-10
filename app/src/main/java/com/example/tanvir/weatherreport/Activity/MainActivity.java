@@ -122,21 +122,25 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
             case R.id.degreeCelcius:
 
                 Toast.makeText(this, "Celsius mode enabled ", Toast.LENGTH_SHORT).show();
+                //getting search text from sharedpreferences
                 myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
                 String query = myPrefs.getString("location", null);
 
+                //key value storing on sharedpreferences
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = myPrefs.edit();
                 editor.putString("Key", "1");
                 editor.apply();
                 editor.commit();
 
+                //getting key value
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 String key = myPrefs.getString("Key", null);
 
 
                 PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
 
+                //calling fragmrnt
                 Fragment viewPagerFragment = (Fragment) viewPager
                         .getAdapter().instantiateItem(viewPager, 1);
                 Fragment viewPagerFragment1 = (Fragment) viewPager
@@ -166,16 +170,20 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                 break;
 
             case R.id.degreeFarenhite:
+                //getting search text from sharedpreferences
                 myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
                 String query1 = myPrefs.getString("location", null);
 
                 Toast.makeText(this, "Fahrenheit mode enabled", Toast.LENGTH_SHORT).show();
+
+                //key value storing on sharedpreferences
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = myPrefs.edit();
                 editor1.putString("Key", "2");
                 editor1.apply();
                 editor1.commit();
 
+                //getting key value
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
                 String key1 = myPrefs.getString("Key", null);
 
@@ -213,17 +221,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         }
         return true;
     }
-
-    @Override
-    public void onBackPressed() {
-        clickCount=0;
-        clickCount1=0;
-        myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor1 = myPrefs.edit();
-        editor1.clear();
-        finish();
-    }
-
+    //reseting search text when onstart method called
     @Override
     protected void onStart() {
         super.onStart();

@@ -51,7 +51,7 @@ public class ForecastAdapter extends ArrayAdapter<Forecast> {
         dateTv.setText(item.getDate());
         minTempTv.setText(item.getMinTemp());
         maxTempTv.setText(item.getMaxTemp());
-        Picasso.with(context).load(item.getImage()).into(imageView);
+        Picasso.with(context).load(item.getImage()).into(imageView);//calling picsasso library for image loading
 
         return view;
     }
