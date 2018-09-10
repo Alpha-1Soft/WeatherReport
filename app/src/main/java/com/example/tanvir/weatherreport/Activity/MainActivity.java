@@ -9,7 +9,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -19,21 +18,33 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.tanvir.weatherreport.R;
+import com.example.tanvir.weatherreport.RetrofitClient;
+import com.example.tanvir.weatherreport.WeatherApi;
 import com.example.tanvir.weatherreport.fragments.CurrectWeatherFragment;
 import com.example.tanvir.weatherreport.fragments.WeatherForecastFragment;
+import com.example.tanvir.weatherreport.models.weather_models.Weather1;
+
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity implements CurrectWeatherFragment.OnFragmentInteractionListener,WeatherForecastFragment.OnFragmentInteractionListener {
     TabLayout tabLayout;
     SharedPreferences myPrefs;
     ViewPager viewPager;
-    int clickCount = 0,clickCount1=0;
+
+    WeatherApi weatherApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(isConnectNetwork()){
-            Toast.makeText(this, "Network connection established", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Network connection established", LENGTH_SHORT).show();
         }
         else{
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -94,36 +105,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String searchText) {
-                PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
-
-                //for (int i = 0; i < pagerAdapter.getCount(); i++) {
-
-                    Fragment viewPagerFragment = (Fragment) viewPager
-                            .getAdapter().instantiateItem(viewPager, 1);
-                Fragment viewPagerFragment1 = (Fragment) viewPager
-                        .getAdapter().instantiateItem(viewPager, 0);
-
-                if (viewPagerFragment != null
-                            && viewPagerFragment.isAdded()) {
-
-                        if (viewPagerFragment instanceof WeatherForecastFragment || viewPagerFragment1 instanceof  CurrectWeatherFragment) {
-                            final WeatherForecastFragment weatherForecastFragment = (WeatherForecastFragment) viewPagerFragment;
-                            CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment1;
-                            if (weatherForecastFragment != null && currectWeatherFragment!=null) {
-                                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
-                                String key = myPrefs.getString("Key", null);
-                                currectWeatherFragment.getWeatherDataBySearch(searchText,key);
-                                weatherForecastFragment.beginSearch(searchText, key);
-
-                                myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor1 = myPrefs.edit();
-                                editor1.putString("location", searchText);
-                                editor1.apply();
-                                editor1.commit();
-                            }
-                        }
-                    //}
-                }
+                checkCity(searchText);
                 return false;
             }
 
@@ -142,10 +124,12 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         switch (id) {
             case R.id.degreeCelcius:
 
-                Toast.makeText(this, "Celsius mode enabled ", Toast.LENGTH_SHORT).show();
+
                 //getting search text from sharedpreferences
                 myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
                 String query = myPrefs.getString("location", null);
+
+                Toast.makeText(this, "Celsius mode enabled "+query, LENGTH_SHORT).show();
 
                 //key value storing on sharedpreferences
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
@@ -180,14 +164,15 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
 
                             }
                             else if(query.length()>0){//else user search any query then it works with it
-                                weatherForecastFragment.beginSearch(query,key);
-                                currectWeatherFragment.getWeatherDataBySearch(query,key);
+
+                                    weatherForecastFragment.beginSearch(query,key);
+                                    currectWeatherFragment.getWeatherDataBySearch(query,key);
+
                             }
                         }
                     }
 
                 }
-                clickCount++;
                 break;
 
             case R.id.degreeFarenhite:
@@ -195,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                 myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
                 String query1 = myPrefs.getString("location", null);
 
-                Toast.makeText(this, "Fahrenheit mode enabled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Fahrenheit mode enabled", LENGTH_SHORT).show();
 
                 //key value storing on sharedpreferences
                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
@@ -219,22 +204,23 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                         && viewPagerFragment2.isAdded()) {
 
                     if (viewPagerFragment2 instanceof WeatherForecastFragment || viewPagerFragment3 instanceof  CurrectWeatherFragment) {
+
                         final WeatherForecastFragment weatherForecastFragment = (WeatherForecastFragment) viewPagerFragment2;
                         CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment3;
+
                         if (weatherForecastFragment != null && currectWeatherFragment!=null) {
                             if (query1==null){//checking mode click if default then show dhaka,bd's temp
                                 weatherForecastFragment.beginSearch("Dhaka,bd",key1);
                                 currectWeatherFragment.getWeatherDataBySearch("Dhaka,bd",key1);
                             }
                             else if(query1.length()>0){//else user search any query then it works with it
-                                weatherForecastFragment.beginSearch(query1,key1);
-                                currectWeatherFragment.getWeatherDataBySearch(query1,key1);
+                                    weatherForecastFragment.beginSearch(query1,key1);
+                                    currectWeatherFragment.getWeatherDataBySearch(query1,key1);
                             }
                         }
                     }
 
                 }
-                clickCount1++;
                 break;
 
             default:
@@ -261,5 +247,59 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         final SharedPreferences pref = getSharedPreferences("queryId", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear().commit();
+    }
+
+    //checking city name here
+    public void checkCity(final String query){
+
+
+        weatherApi = RetrofitClient.getRetrofitClient().create(WeatherApi.class);
+
+        String url = "data/2.5/weather?q="+query+"&apikey=90ff8755cfe4bfaa6e542e82cafe5b3e";
+
+        Call<Weather1> weather1Call = weatherApi.getWeatherBySearch(url);
+
+        weather1Call.enqueue(new Callback<Weather1>() {
+            @Override
+            public void onResponse(Call<Weather1> call, Response<Weather1> response) {
+                if(response.isSuccessful() && response.body()!=null){
+                    PagerAdapter pagerAdapter = (PagerAdapter) viewPager.getAdapter();
+
+                    Fragment viewPagerFragment = (Fragment) viewPager.getAdapter().instantiateItem(viewPager, 1);
+                    Fragment viewPagerFragment1 = (Fragment) viewPager.getAdapter().instantiateItem(viewPager, 0);
+
+                    if (viewPagerFragment != null && viewPagerFragment.isAdded()) {
+
+                        if (viewPagerFragment instanceof WeatherForecastFragment || viewPagerFragment1 instanceof  CurrectWeatherFragment) {
+                            final WeatherForecastFragment weatherForecastFragment = (WeatherForecastFragment) viewPagerFragment;
+                            CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment1;
+                            if (weatherForecastFragment != null && currectWeatherFragment!=null) {
+                                myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
+                                String key = myPrefs.getString("Key", null);
+
+                                    weatherForecastFragment.beginSearch(query,key);
+                                    currectWeatherFragment.getWeatherDataBySearch(query,key);
+
+                                    myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor1 = myPrefs.edit();
+                                    editor1.putString("location", query);
+                                    editor1.apply();
+                                    editor1.commit();
+                                }
+                            }
+                        }
+
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "Invalid city name", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Weather1> call, Throwable t) {
+
+            }
+        });
+
     }
 }

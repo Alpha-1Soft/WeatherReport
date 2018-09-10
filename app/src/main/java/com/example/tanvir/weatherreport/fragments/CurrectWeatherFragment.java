@@ -93,7 +93,7 @@ public class CurrectWeatherFragment extends Fragment {
                 double min = (double)(weather.getMain().getTempMin() - 273.15);
                 double max = (double)(weather.getMain().getTempMax() - 273.15);
 
-                if(key.equals("1") || key==null){//setting celsius
+                if(key.equals("1")){//setting celsius
                     tempText.setText(new DecimalFormat("#.#").format(temparature) + " " + "\u2103");
                     minText.setText(new DecimalFormat("#.#").format(min) + " " + "\u2103");
                     maxText.setText(new DecimalFormat("#.#").format(max) + " " + "\u2103");
@@ -124,7 +124,6 @@ public class CurrectWeatherFragment extends Fragment {
     }
 //getting data by search
     public void getWeatherDataBySearch(String location, final String key) {
-
         weatherApi = RetrofitClient.getRetrofitClient().create(WeatherApi.class);
 
         String url = "data/2.5/weather?q="+location+"&apikey=90ff8755cfe4bfaa6e542e82cafe5b3e";
@@ -142,7 +141,7 @@ public class CurrectWeatherFragment extends Fragment {
                     double min = (double)(weather2.getMain().getTempMin() - 273.15);
                     double max = (double)(weather2.getMain().getTempMax() - 273.15);
 
-                    if(key.equals("1") || key==null){
+                    if(key.equals("1")){
                         tempText.setText(new DecimalFormat("#.#").format(temparature) + " " + "\u2103");
                         minText.setText(new DecimalFormat("#.#").format(min) + " " + "\u2103");
                         maxText.setText(new DecimalFormat("#.#").format(max) + " " + "\u2103");
