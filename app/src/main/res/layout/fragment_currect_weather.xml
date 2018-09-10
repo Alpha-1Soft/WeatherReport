@@ -4,14 +4,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient2"
     android:orientation="vertical"
-    android:weightSum="2"
     tools:context=".fragments.CurrectWeatherFragment">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:weightSum="2"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:weightSum="2">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -32,37 +41,41 @@
                 android:id="@+id/dateTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:textColor="#000000"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                />
 
             <TextView
                 android:id="@+id/dayTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:textColor="#000000"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+               />
 
             <TextView
                 android:id="@+id/cityNameTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+               />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <ImageView
                 android:id="@+id/conditionImageview"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:padding="5dp"
+                android:layout_gravity="center"
+                />
 
             <TextView
                 android:id="@+id/conditionTextview"
@@ -70,13 +83,14 @@
                 android:layout_height="wrap_content"
                 android:text="scatterad \ncloud"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:layout_gravity="center"
+                />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_marginBottom="20dp"
         android:layout_weight="1"
@@ -98,15 +112,14 @@
                 android:layout_height="wrap_content"
                 android:text="Min"
                 android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/minTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
                 android:layout_gravity="center" />
 
@@ -114,9 +127,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Max"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:layout_gravity="center" />
 
             <TextView
@@ -124,7 +136,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_gravity="center" />
 
             <ImageView
@@ -150,9 +162,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sunrise"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:layout_gravity="center" />
 
             <TextView
@@ -160,15 +171,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sunset"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 android:textColor="#000000"
                 android:layout_gravity="center" />
 
@@ -176,7 +186,7 @@
                 android:id="@+id/sunsetTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
                 android:layout_gravity="center" />
 
@@ -202,16 +212,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Humidity"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:layout_gravity="center" />
 
             <TextView
                 android:id="@+id/humidityTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
                 android:layout_gravity="center" />
 
@@ -219,9 +228,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pressure"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textColor="#000000"
-                android:textStyle="bold"
                 android:layout_gravity="center" />
 
             <TextView
@@ -229,7 +237,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_gravity="center" />
 
             <ImageView
@@ -241,5 +249,6 @@
                  />
         </LinearLayout>
     </LinearLayout>
-
+        </LinearLayout>
+   </ScrollView>
 </LinearLayout>
