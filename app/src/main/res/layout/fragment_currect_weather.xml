@@ -33,7 +33,6 @@
                 android:id="@+id/tempTexview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="17.0 C"
                 android:textColor="#000000"
                 android:textSize="45sp" />
 
@@ -72,7 +71,7 @@
             <ImageView
                 android:id="@+id/conditionImageview"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_height="70dp"
                 android:padding="5dp"
                 android:layout_gravity="center"
                 />
@@ -81,7 +80,6 @@
                 android:id="@+id/conditionTextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="scatterad \ncloud"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 android:layout_gravity="center"
