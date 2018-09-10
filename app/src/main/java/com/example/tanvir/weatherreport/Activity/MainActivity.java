@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
     TabLayout tabLayout;
     SharedPreferences myPrefs;
     ViewPager viewPager;
-    int clickCount = 0,clickCount1=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                     }
 
                 }
-                clickCount++;
                 break;
 
             case R.id.degreeFarenhite:
@@ -234,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                     }
 
                 }
-                clickCount1++;
                 break;
 
             default:
