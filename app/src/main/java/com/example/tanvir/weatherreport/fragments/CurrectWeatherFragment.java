@@ -92,17 +92,22 @@ public class CurrectWeatherFragment extends Fragment {
                 double temparature = (double)(weather.getMain().getTemp() - 273.15);
                 double min = (double)(weather.getMain().getTempMin() - 273.15);
                 double max = (double)(weather.getMain().getTempMax() - 273.15);
+                try{
+                    if(key.equals("1")){//setting celsius
+                        tempText.setText(new DecimalFormat("#.#").format(temparature) + " " + "\u2103");
+                        minText.setText(new DecimalFormat("#.#").format(min) + " " + "\u2103");
+                        maxText.setText(new DecimalFormat("#.#").format(max) + " " + "\u2103");
+                    }
+                    else if(key.equals("2")){//setting farenhite
+                        tempText.setText(kelvinToFarenhite(weather.getMain().getTemp()));
+                        minText.setText(kelvinToFarenhite(weather.getMain().getTempMin()));
+                        maxText.setText(kelvinToFarenhite(weather.getMain().getTempMax()));
+                    }
+                }
+                catch (Exception e){
 
-                if(key.equals("1")){//setting celsius
-                    tempText.setText(new DecimalFormat("#.#").format(temparature) + " " + "\u2103");
-                    minText.setText(new DecimalFormat("#.#").format(min) + " " + "\u2103");
-                    maxText.setText(new DecimalFormat("#.#").format(max) + " " + "\u2103");
                 }
-                else if(key.equals("2")){//setting farenhite
-                    tempText.setText(kelvinToFarenhite(weather.getMain().getTemp()));
-                    minText.setText(kelvinToFarenhite(weather.getMain().getTempMin()));
-                    maxText.setText(kelvinToFarenhite(weather.getMain().getTempMax()));
-                }
+
 
                 dateText.setText(dateFormate(weather.getDt()));
                 dayText.setText(dayFormate(weather.getDt()));
@@ -141,15 +146,21 @@ public class CurrectWeatherFragment extends Fragment {
                     double min = (double)(weather2.getMain().getTempMin() - 273.15);
                     double max = (double)(weather2.getMain().getTempMax() - 273.15);
 
-                    if(key.equals("1")){
-                        tempText.setText(new DecimalFormat("#.#").format(temparature) + " " + "\u2103");
-                        minText.setText(new DecimalFormat("#.#").format(min) + " " + "\u2103");
-                        maxText.setText(new DecimalFormat("#.#").format(max) + " " + "\u2103");
+                    try{
+                        if(key != null && key.equals("1")){
+                            tempText.setText(new DecimalFormat("#.#").format(temparature) + " " + "\u2103");
+                            minText.setText(new DecimalFormat("#.#").format(min) + " " + "\u2103");
+                            maxText.setText(new DecimalFormat("#.#").format(max) + " " + "\u2103");
+                        }
+                        else if(key.equals("2")){
+                            tempText.setText(kelvinToFarenhite(weather2.getMain().getTemp()));
+                            minText.setText(kelvinToFarenhite(weather2.getMain().getTempMin()));
+                            maxText.setText(kelvinToFarenhite(weather2.getMain().getTempMax()));
+                        }
+
                     }
-                    else if(key.equals("2")){
-                        tempText.setText(kelvinToFarenhite(weather2.getMain().getTemp()));
-                        minText.setText(kelvinToFarenhite(weather2.getMain().getTempMin()));
-                        maxText.setText(kelvinToFarenhite(weather2.getMain().getTempMax()));
+                    catch (Exception e){
+
                     }
 
                     dateText.setText(dateFormate(weather2.getDt()));

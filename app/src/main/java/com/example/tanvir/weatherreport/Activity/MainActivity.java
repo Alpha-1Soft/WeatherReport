@@ -24,7 +24,6 @@ import com.example.tanvir.weatherreport.fragments.CurrectWeatherFragment;
 import com.example.tanvir.weatherreport.fragments.WeatherForecastFragment;
 import com.example.tanvir.weatherreport.models.weather_models.Weather1;
 
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -123,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
         int id = item.getItemId();
         switch (id) {
             case R.id.degreeCelcius:
-
 
                 //getting search text from sharedpreferences
                 myPrefs = getSharedPreferences("queryId", Context.MODE_PRIVATE);
@@ -275,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                             CurrectWeatherFragment currectWeatherFragment = (CurrectWeatherFragment) viewPagerFragment1;
                             if (weatherForecastFragment != null && currectWeatherFragment!=null) {
                                 myPrefs = getSharedPreferences("prefID", Context.MODE_PRIVATE);
-                                String key = myPrefs.getString("Key", null);
+                                String key = myPrefs.getString("Key", "1");
 
                                     weatherForecastFragment.beginSearch(query,key);
                                     currectWeatherFragment.getWeatherDataBySearch(query,key);

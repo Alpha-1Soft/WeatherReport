@@ -79,22 +79,21 @@ public class WeatherForecastFragment extends Fragment {
                     double minTemp = forecast.getList().get(i).getTemp().getMin();
                     double maxTemp = forecast.getList().get(i).getTemp().getMax();
 
-                        if(key.equals("1") || key.equals(null)){//if mode is 1 then insert celsius data
-                            if(i==0){
+                    try {
+                        if (key.equals("1")) {//if mode is 1 then insert celsius data
+                            if (i == 0) {
                                 arrayList.add(new Forecast("Today",
                                         "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                         "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
                                         dateFormate, iconUrl
                                 ));
-                            }
-                            else if(i==1){
+                            } else if (i == 1) {
                                 arrayList.add(new Forecast(dayOfWeek,
                                         "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                         "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
                                         dateFormate, iconUrl
                                 ));
-                            }
-                            else{
+                            } else {
                                 arrayList.add(new Forecast(dayOfWeek,
                                         "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                         "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
@@ -102,23 +101,20 @@ public class WeatherForecastFragment extends Fragment {
                                 ));
                             }
 
-                        }
-                        else if(key.equals("2")){//else if mode is 2 then insert farenhite
-                            if(i==0){
+                        } else if (key.equals("2")) {//else if mode is 2 then insert farenhite
+                            if (i == 0) {
                                 arrayList.add(new Forecast("Today",
                                         "Min: " + celsiusToFarenhite(minTemp),
                                         "Max: " + celsiusToFarenhite(maxTemp),
                                         dateFormate, iconUrl
                                 ));
-                            }
-                            else if(i==1){
+                            } else if (i == 1) {
                                 arrayList.add(new Forecast("Tomorrow",
                                         "Min: " + celsiusToFarenhite(minTemp),
                                         "Max: " + celsiusToFarenhite(maxTemp),
                                         dateFormate, iconUrl
                                 ));
-                            }
-                            else{
+                            } else {
                                 arrayList.add(new Forecast(dayOfWeek,
                                         "Min: " + celsiusToFarenhite(minTemp),
                                         "Max: " + celsiusToFarenhite(maxTemp),
@@ -126,6 +122,10 @@ public class WeatherForecastFragment extends Fragment {
                                 ));
                             }
                         }
+                    }
+                    catch (Exception e){
+
+                    }
                     i++;
                 }
                 arrayAdapter = new ForecastAdapter(getActivity(), arrayList);
@@ -165,22 +165,21 @@ public class WeatherForecastFragment extends Fragment {
                         double minTemp = forecastBySearch.getList().get(i).getTemp().getMin();
                         double maxTemp = forecastBySearch.getList().get(i).getTemp().getMax();
 
-                            if (key.equals("1") || key.equals(null)) {//if mode is 1 then insert celsius data
-                                if(i==0){
+                        try {
+                            if (key.equals("1")) {//if mode is 1 then insert celsius data
+                                if (i == 0) {
                                     arrayList.set(i, new Forecast("Today",
                                             "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                             "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
                                             dateFormate, iconUrl)
                                     );
-                                }
-                                else if(i==1){
+                                } else if (i == 1) {
                                     arrayList.set(i, new Forecast("Tomorrow",
                                             "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                             "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
                                             dateFormate, iconUrl)
                                     );
-                                }
-                                else{
+                                } else {
                                     arrayList.set(i, new Forecast(dayOfWeek,
                                             "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                             "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
@@ -188,27 +187,29 @@ public class WeatherForecastFragment extends Fragment {
                                     );
                                 }
                             } else if (key.equals("2")) {//else if mode is 2 then insert farenhite
-                                if(i==0){
+                                if (i == 0) {
                                     arrayList.set(i, new Forecast("Today",
-                                            "Min: " + celsiusToFarenhite(minTemp) ,
+                                            "Min: " + celsiusToFarenhite(minTemp),
                                             "Max: " + celsiusToFarenhite(maxTemp),
                                             dateFormate, iconUrl)
                                     );
-                                }
-                                else if(i==1){
+                                } else if (i == 1) {
                                     arrayList.set(i, new Forecast("Tomorrow",
-                                            "Min: " + celsiusToFarenhite(minTemp) ,
+                                            "Min: " + celsiusToFarenhite(minTemp),
                                             "Max: " + celsiusToFarenhite(maxTemp),
                                             dateFormate, iconUrl)
                                     );
-                                }
-                                else{
+                                } else {
                                     arrayList.set(i, new Forecast(dayOfWeek,
-                                            "Min: " + celsiusToFarenhite(minTemp) ,
+                                            "Min: " + celsiusToFarenhite(minTemp),
                                             "Max: " + celsiusToFarenhite(maxTemp),
                                             dateFormate, iconUrl)
                                     );
                                 }
+                            }
+                        }
+                        catch (Exception e){
+
                         }
                         i++;
                     }
