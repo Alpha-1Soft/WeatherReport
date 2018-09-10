@@ -26,26 +26,27 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
     TabLayout tabLayout;
     SharedPreferences myPrefs;
     ViewPager viewPager;
+    int clickCount = 0,clickCount1=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(isConnectNetwork()){
-            Toast.makeText(this, "Internet connection established", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Network connection established", Toast.LENGTH_SHORT).show();
         }
         else{
-            android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
-            dialog.setTitle("No internet connection");
-            dialog.setMessage("Please check your internet connection and try again");
-            dialog.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("No internet connection");
+            builder.setMessage("Please check your internet connection and try again");
+            builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.dismiss();
                     finish();
                 }
             });
-            dialog.show();
+            builder.show();
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -186,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                     }
 
                 }
+                clickCount++;
                 break;
 
             case R.id.degreeFarenhite:
@@ -232,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                     }
 
                 }
+                clickCount1++;
                 break;
 
             default:

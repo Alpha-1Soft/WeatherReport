@@ -72,7 +72,7 @@ public class CurrectWeatherFragment extends Fragment {
         pressureText = view.findViewById(R.id.pressureTextview);
 
         myPrefs = getActivity().getSharedPreferences("prefID", Context.MODE_PRIVATE);
-        String key = myPrefs.getString("Key",null);
+        String key = myPrefs.getString("Key","1");
         getWeatherData(key);
 
         return  view;
