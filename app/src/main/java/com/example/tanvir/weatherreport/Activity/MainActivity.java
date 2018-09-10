@@ -1,11 +1,15 @@
 package com.example.tanvir.weatherreport.Activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -28,9 +32,26 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(isConnectNetwork()){
+            Toast.makeText(this, "Internet connection established", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            android.app.AlertDialog.Builder dialog = new android.app.AlertDialog.Builder(this);
+            dialog.setTitle("No internet connection");
+            dialog.setMessage("Please check your internet connection and try again");
+            dialog.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                    finish();
+                }
+            });
+            dialog.show();
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         tabLayout = (TabLayout) findViewById(R.id.tablayoutId);
         tabLayout.addTab(tabLayout.newTab().setText("Current"));
@@ -220,6 +241,18 @@ public class MainActivity extends AppCompatActivity implements CurrectWeatherFra
                 break;
         }
         return true;
+    }
+    //network connection check
+    public boolean isConnectNetwork(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if(networkInfo!=null && networkInfo.isConnected()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     //reseting search text when onstart method called
     @Override
