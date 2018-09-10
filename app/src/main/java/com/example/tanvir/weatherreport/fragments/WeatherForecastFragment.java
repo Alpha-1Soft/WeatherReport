@@ -79,7 +79,7 @@ public class WeatherForecastFragment extends Fragment {
                     double minTemp = forecast.getList().get(i).getTemp().getMin();
                     double maxTemp = forecast.getList().get(i).getTemp().getMax();
 
-                        if(key.equals("1") || key.equals(null)){//if mode is 1 then insert celsius data
+                        if(key.equals("1") || key == null){//if mode is 1 then insert celsius data
                             if(i==0){
                                 arrayList.add(new Forecast("Today",
                                         "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
@@ -165,7 +165,7 @@ public class WeatherForecastFragment extends Fragment {
                         double minTemp = forecastBySearch.getList().get(i).getTemp().getMin();
                         double maxTemp = forecastBySearch.getList().get(i).getTemp().getMax();
 
-                            if (key.equals("1") || key.equals(null)) {//if mode is 1 then insert celsius data
+                            if (key.equals("1") || key == null) {//if mode is 1 then insert celsius data
                                 if(i==0){
                                     arrayList.set(i, new Forecast("Today",
                                             "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
