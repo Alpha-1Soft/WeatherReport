@@ -88,7 +88,7 @@ public class WeatherForecastFragment extends Fragment {
                                         dateFormate, iconUrl
                                 ));
                             } else if (i == 1) {
-                                arrayList.add(new Forecast(dayOfWeek,
+                                arrayList.add(new Forecast("Tomorrow",
                                         "Min: " + new DecimalFormat("#.#").format(minTemp) + " " + "\u2103",
                                         "Max: " + new DecimalFormat("#.#").format(maxTemp) + " " + "\u2103",
                                         dateFormate, iconUrl
